@@ -62,14 +62,19 @@
                                         <a class="nav-link" href="/contact">Contact</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="genric-btn primary-border radius" href="/login">SignIn</a>
-                                    </li>
-                                    <li class="nav-item col-xl-2">
-                                        <a class="genric-btn primary radius" href="/signup">SignUp</a>
+                                    <div class="nav-item dropdown">
+                                        <a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle user-action"><img src="https://www.tutorialrepublic.com/examples/images/avatar/3.jpg" style="border-radius: 50px;" class="avatar" alt="Avatar"> Antonio Moreno <b class="caret"></b></a>
+                                        <div class="dropdown-menu">
+                                            <a href="/profile" class="dropdown-item"><i class="fa fa-user-o"></i> Profile</a>
+                                            <a href="#" class="dropdown-item"><i class="fa fa-calendar-o"></i> Calendar</a>
+                                            <a href="#" class="dropdown-item"><i class="fa fa-sliders"></i> Settings</a>
+                                            <div class="divider dropdown-divider"></div>
+                                            <a href="/logout" class="dropdown-item"><i class="material-icons">&#xE8AC;</i> Logout</a>
+                                        </div>
+                                    </div>
                                     </li>
                                     
                                     {% else %}
-                                    
                                     <li class="nav-item">
                                         <a class="genric-btn primary-border radius" href="/login">SignIn</a>
                                     </li>
@@ -77,10 +82,8 @@
                                         <a class="genric-btn primary radius" href="/signup">SignUp</a>
                                     </li>
                                     {% endif %}
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="/logout">Logout</a>
-                                    </li>
-                                </ul>
+                                    
+                                </ul> 
                             </div>
                             <a class="btn_2 d-none d-lg-block" href="#">PHONE- 04546263900</a>
                         </nav>

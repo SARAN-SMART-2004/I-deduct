@@ -20,6 +20,9 @@ def contact():
 @views.route('/disease', methods=['GET', 'POST'])
 def disease():
     return render_template("doctor.html", user=current_user)
+@views.route('/profile', methods=['GET', 'POST'])
+def profile():
+    return render_template("profile.html", user=current_user)
 
 
 
