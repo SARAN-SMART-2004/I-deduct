@@ -23,6 +23,9 @@ def disease():
 @views.route('/profile', methods=['GET', 'POST'])
 def profile():
     return render_template("profile.html", user=current_user)
+@views.route('/profile-edit', methods=['GET', 'POST'])
+def profile():
+    return render_template("profileedit.html", user=current_user)
 
 
 
