@@ -1,9 +1,12 @@
-from flask import Blueprint, render_template, request,Flask, redirect, url_for, render_template,request,session
+from flask import Blueprint, render_template, request,Flask, redirect,flash, url_for, render_template,request,session
 from flask_login import login_required, current_user
+from .models import User, details
+from . import db 
 import csv
 
 
 views = Blueprint('views', __name__)
+
 @views.route('/', methods=['GET', 'POST'])
 @login_required
 def home():
@@ -24,7 +27,23 @@ def disease():
 def profile():
     return render_template("profile.html", user=current_user)
 @views.route('/profile-edit', methods=['GET', 'POST'])
-def profile():
+def profileedit():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        fname = request.form.get('first_name')
+        lname = request.form.get('last_name')
+        diseases = request.form.get('diseases')
+        city = request.form.get('location')
+        address = request.form.get('address')
+        phone = request.form.get('phone')
+        dob = request.form.get('dob')
+        new_user = details(email=email, fname=fname,lname=lname, diseases=diseases, city=city, address=address,phone=phone, dob=dob)
+        print(new_user)
+        db.session.add(new_user)
+        db.session.commit()
+        flash('Details Updated', category='success')
+        return redirect(url_for('views.profile'))
+
     return render_template("profileedit.html", user=current_user)
 
 
