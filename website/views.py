@@ -25,10 +25,21 @@ def disease():
     return render_template("doctor.html", user=current_user)
 @views.route('/profile', methods=['GET', 'POST'])
 def profile():
-    return render_template("profile.html", user=current_user)
+        # detail = details.query.filter_by(id=id).first()
+        # email = details.email
+        # fname = details.fname
+        # lname = details.lname
+        # diseases =details.diseases
+        # city = details.city
+        # address = details.address
+        # phone = details.phone
+        # dob=details.dob
+        #,email=email,fname=fname,lname=lname,diseases=diseases,city=city,address=address,phone=phone,dob=dob
+        return render_template("profile.html", user=current_user)
 @views.route('/profile-edit', methods=['GET', 'POST'])
 def profileedit():
     if request.method == 'POST':
+        print("POST METHOD MOVING")
         email = request.form.get('email')
         fname = request.form.get('first_name')
         lname = request.form.get('last_name')
@@ -37,14 +48,15 @@ def profileedit():
         address = request.form.get('address')
         phone = request.form.get('phone')
         dob = request.form.get('dob')
-        new_user = details(email=email, fname=fname,lname=lname, diseases=diseases, city=city, address=address,phone=phone, dob=dob)
-        print(new_user)
+        #detail=details.query.filter_by(email=email).first()
+        new_user = details(email=email, fname=fname,lname=lname, diseases=diseases, city=city, address=address,phone=phone, dob=dob,user_id=current_user.id)
+        #print(new_user)
         db.session.add(new_user)
         db.session.commit()
         flash('Details Updated', category='success')
-        return redirect(url_for('views.profile'))
-
-    return render_template("profileedit.html", user=current_user)
+        return redirect(url_for('views.profileedit'))
+   
+    return render_template("profileedit.html",user=current_user)
 
 
 
