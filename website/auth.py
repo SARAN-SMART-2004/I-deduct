@@ -39,10 +39,16 @@ def logout():
 def sign_up():
     if request.method == 'POST':
         email = request.form.get('email')
+        username = request.form.get('username')
+        phone = request.form.get('phone')
+        city = request.form.get('city')
         first_name = request.form.get('firstName')
+        work_type = request.form.get('work_type')
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
-
+        phne=User.query.filter_by(phone=phone).first()
+        usernm=User.query.filter_by(username=username).first()
+        
         user = User.query.filter_by(email=email).first()
         if user:
             flash('Email already exists.', category='error')
@@ -54,9 +60,13 @@ def sign_up():
             flash('Passwords don\'t match.', category='error')
         elif len(password1) < 7:
             flash('Password must be at least 7 characters.', category='error')
+        elif phne:
+            flash('Phone Number Already exist', category="error")
+        elif usernm:
+            flash('Username is Already exist', category="error")
+
         else:
-            new_user = User(email=email, first_name=first_name, password=generate_password_hash(
-                password1, method='sha256'))
+            new_user = User(email=email,username=username,work_type=work_type ,first_name=first_name, phone=phone, city=city,password=generate_password_hash(password1, method='sha256'))
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user, remember=True)
