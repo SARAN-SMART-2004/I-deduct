@@ -1,8 +1,9 @@
-from flask import Blueprint, render_template, request,Flask, redirect,flash, url_for, render_template,request,session,jsonify, send_file
+from flask import Blueprint, render_template, request,Flask,make_response, redirect,flash, url_for, render_template,request,session,jsonify, send_file
 from flask_login import login_required, current_user
 from .models import User, details
 from . import db 
-
+from reportlab.pdfgen import canvas
+import io,sqlite3
 from io import BytesIO
 import csv
 import json
@@ -204,3 +205,55 @@ def success():
 @views.route('/sorry')
 def sorry():
     return render_template("sorry.html",user=current_user)
+user_details = {
+    "name": "Saran",
+    "email": "Saran152004s@gmail.com",
+    "age": 18,     
+    "address": "theni"
+}
+
+def details():
+      # Connect to the database
+    conn = sqlite3.connect('database.db')
+    
+    # Create a cursor object to execute SQL queries
+    cursor = conn.cursor()
+    
+    # Execute a SELECT query
+    cursor.execute('SELECT * FROM users')
+    
+    # Fetch all results
+    data = cursor.fetchall()
+    
+    # Close the cursor and connection
+    cursor.close()
+    conn.close()
+    
+    return render_template('index.html', data=data)
+
+@views.route('/generate_pdf', methods=['POST'])
+def generate_pdf():
+    response = make_response(create_pdf())
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'attachment; filename=user_details.pdf'
+    return response
+def create_pdf():
+    buffer = io.BytesIO()
+    p = canvas.Canvas(buffer)
+    
+    # Set font and font size
+    p.setFont("Helvetica", 12)
+    
+    # Write user details to PDF
+    for key, value in user_details.items():
+        p.drawString(100, 700, f"{key}: {value}")
+        p.translate(0, -20)  # Move down for the next line
+    
+    p.showPage()
+    p.save()
+    pdf = buffer.getvalue()
+    buffer.close()
+    return pdf
+@views.route('/download')
+def index():
+    return render_template('download.html')
