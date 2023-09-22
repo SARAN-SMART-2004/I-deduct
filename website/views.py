@@ -257,3 +257,6 @@ def create_pdf():
 @views.route('/download')
 def index():
     return render_template('download.html')
+@views.route('/bmi')
+def bmi():
+    return render_template('bmi.html')
