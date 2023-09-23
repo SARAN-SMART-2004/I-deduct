@@ -260,3 +260,6 @@ def index():
 @views.route('/bmi')
 def bmi():
     return render_template('bmi.html')
+@views.route('/def')
+def definition():
+    return render_template('definition.html')

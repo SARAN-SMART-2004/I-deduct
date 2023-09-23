@@ -29,8 +29,7 @@ body {
     box-shadow: 3px 3px 11px 1.5px #0000002b;
     font-family: Poppins;
     padding: 10px;
-    height: 575px;
-
+    height: 595px;
     display: grid;
     grid-template-columns: 50% 50%;
 }
@@ -50,7 +49,22 @@ h1 {
   background-size:100% 100%;
 }
 
-
+.notes{
+    width: 300px;
+    padding: 20px;
+    background-color: rgb(236, 235, 235);
+    margin-left: 75vw;
+    margin-top: 0vh;
+}
+.notes h1{
+    color: #000;
+    text-align: center;
+    font-size: 30px;
+}
+.notes p{
+    width: 230px;
+    margin-left: 20px;
+}
 
 form {
     display: flex;
