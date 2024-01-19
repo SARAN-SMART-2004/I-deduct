@@ -66,7 +66,7 @@ def profileedit():
         return redirect(url_for('views.profileedit'))
    
     return render_template("profileedit.html",user=current_user)
-
+# for hear disease prediction
 @views.route('/cal_h', methods=['GET', 'POST'])
 def cal_h():
     if request.method == "POST":
@@ -80,17 +80,22 @@ def cal_h():
         thalach=request.form["thalach"]
         oldpeak=request.form["oldpeak"]
         import numpy as np
+        #convert the input values into array
         features = np.array([[age,	sex, cp, trestbps, chol , fbs, restecg, thalach, oldpeak]])
         import pandas as pd
+        #load cv file for modeling
         dataset=pd.read_csv('website\dataset\heart.csv')
+        #removing unwanted data coloumn
         dataset=dataset.drop(['exang'],axis=1)
         dataset=dataset.drop(['slope'],axis=1)
         dataset=dataset.drop(['ca'],axis=1)
         dataset=dataset.drop(['thal'],axis=1)
         X=dataset.iloc[:,:-1].values
         y=dataset.iloc[:, -1].values
+        #spliting data for train and test
         from sklearn.model_selection import train_test_split
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state=42)
+        #classification of model
         from sklearn.ensemble import RandomForestClassifier
         classifier = RandomForestClassifier(n_estimators=10, criterion="entropy", random_state=1729)
         classifier.fit(X_train, y_train)
@@ -98,6 +103,7 @@ def cal_h():
         from sklearn import metrics
         accuracy = metrics.accuracy_score(y_test, y_pred)
         accuracy=round(accuracy*100)
+        #getting result of value 0 or 1.
         prediction = classifier.predict(features)
         print("Prediction: {}".format(prediction))
         
@@ -108,7 +114,7 @@ def cal_h():
     else:
         return render_template("heart.html",user=current_user)
 
-    
+#for diabetes prediction 
 @views.route('/cal_d', methods=['GET', 'POST'])
 def cal_d():
     if request.method == "POST":
@@ -147,7 +153,7 @@ def cal_d():
 
 
 
-
+#for predicting stroke
 @views.route('/cal_s', methods=['GET', 'POST'])
 def cal_s():
     if request.method == "POST":
@@ -197,11 +203,11 @@ def cal_s():
     else:
         return render_template("stroke.html",user=current_user)
 
-
+# routing for output of result page
 @views.route('/success')
 def success():
     return render_template("success.html",user=current_user)
-
+# route for output of result page 
 @views.route('/sorry')
 def sorry():
     return render_template("sorry.html",user=current_user)
@@ -230,7 +236,7 @@ def details():
     conn.close()
     
     return render_template('index.html', data=data)
-
+# generate pdf for download the report in pdf format 
 @views.route('/generate_pdf', methods=['POST'])
 def generate_pdf():
     response = make_response(create_pdf())
@@ -256,7 +262,8 @@ def create_pdf():
     return pdf
 @views.route('/download')
 def index():
-    return render_template('download.html')
+    return render_template('download.html')\
+
 @views.route('/bmi')
 def bmi():
     return render_template('bmi.html')
